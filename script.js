@@ -647,13 +647,13 @@ function renderGallery() {
     card.innerHTML = `
       <div class="card-media">
         <span class="card-number-badge">Picture ${index + 1}</span>
+        <span class="card-km-badge">⛵ ${formatKm(item.km)} km</span>
         <img alt="${escapeHtml(item.alt)}" loading="lazy" />
       </div>
       <div class="card-body">
         <h2 class="card-title">${escapeHtml(item.title)}</h2>
         <div class="card-footer">
           <span class="card-action-text">Practice description &rarr;</span>
-          <span class="card-km">⛵ ${formatKm(item.km)} km</span>
         </div>
       </div>
     `;

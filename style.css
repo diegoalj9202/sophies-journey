@@ -1488,3 +1488,88 @@ mark.hl .joiner {
 /* Buttons sit under the levels, so the next step is always right below the newest content */
 .activity-controls-panel .levels-stack { order: 0; }
 .activity-controls-panel .buttons-group { order: 1; }
+
+/* ==========================================================================
+   GALLERY: 2 rows of 5 on computers, 2 columns on tablets, 1 on phones
+   ========================================================================== */
+.card-media {
+  aspect-ratio: 16 / 9; /* same shape as the pictures, so nothing is cropped */
+}
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1840px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .gallery-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+
+  .gallery-grid .card-body {
+    padding: 0.8rem 0.9rem 0.9rem;
+  }
+
+  .gallery-grid .card-title {
+    font-size: 1.08rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .gallery-grid .card-footer {
+    padding-top: 0.55rem;
+    gap: 0.5rem;
+  }
+
+  .gallery-grid .card-action-text {
+    font-size: 0.8rem;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1023px) {
+  .gallery-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+}
+
+/* Computers: slightly taller thumbnails and a width that always lets both rows fit on screen */
+@media (min-width: 1024px) {
+  .gallery-grid {
+    max-width: calc(333.3vh - 800px);
+    margin-inline: auto;
+  }
+
+  .gallery-grid .card-media {
+    aspect-ratio: 4 / 3;
+  }
+
+  .app-main:has(#gallery-view.active) {
+    padding-bottom: 1rem;
+  }
+}
+
+/* km badge on the gallery picture (top right) */
+.card-km-badge {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--text-main);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-sm);
+  white-space: nowrap;
+}
+
+.card-number-badge {
+  z-index: 1;
+}
+
+.card-action-text {
+  white-space: nowrap;
+}

@@ -5,18 +5,24 @@
  * ============================================================================
  * TEACHER EDIT ZONE: PICTURE DATA
  * ============================================================================
- * Edit any picture below:
- * - 'title'   : scene title (shown on the cards and under "Picture X of 10").
- * - 'image'   : path to the picture, e.g. "images/scene-01.jpg".
- *               If the file is missing, a coloured placeholder is shown.
- * - 'alt'     : short description of the picture for screen readers.
- * - 'words'   : 4 key words. The FIRST word is the verb (shown as the action).
- * - 'km'      : distance sailed in this scene (0 to 5,500). Moves the boat on the map.
- * - 'phrases' : the 3 model sentences:
- *      simple   🟢 one idea
- *      compound 🔵 two ideas + FANBOYS (for, and, nor, but, or, yet, so)
- *      complex  🟠 because, when, although, while, before, after, as soon as...
- *   The joining word is underlined automatically.
+ * Each picture has 3 levels. In every level students get words or hints first,
+ * try their own sentence, and then reveal a model sentence that uses exactly
+ * those words.
+ *
+ * - 'title' : scene title (shown on the cards and under "Picture X of 10").
+ * - 'image' : path to the picture, e.g. "images/scene-01.jpg".
+ *             If the file is missing, a coloured placeholder is shown.
+ * - 'alt'   : short description of the picture for screen readers.
+ * - 'km'    : distance sailed in this scene (0 to 5,500). Moves the boat on the map.
+ * - 'levels':
+ *     simple:   { words: [verb, noun, noun, noun], sentence }
+ *                 The FIRST word is the verb (shown as the action word).
+ *     compound: { newWords: [fanboysWord, contentWord], sentence }
+ *     complex:  { conjunction, idea, frame, sentence }
+ *                 'frame' uses ___ for the blanks, e.g. "Although ___, Sophie ___."
+ *
+ * Every target word is highlighted in its model sentence automatically,
+ * also when the verb changes form (read -> reads / reading, carry -> carries).
  * ============================================================================
  */
 
@@ -26,12 +32,22 @@ const PICTURES_DATA = [
     title: "The dreamer",
     image: "images/scene-01.jpg",
     alt: "Sophie reading a sailing book at her desk at night.",
-    words: ["read", "book", "map", "window"],
     km: 0,
-    phrases: {
-      simple: "Sophie is reading a sailing book.",
-      compound: "It is late, but she isn't sleeping.",
-      complex: "When she reads about the sea, she feels free."
+    levels: {
+      simple: {
+        words: ["read", "book", "map", "window"],
+        sentence: "Sophie reads a book with a map near the window."
+      },
+      compound: {
+        newWords: ["but", "sleep"],
+        sentence: "Sophie reads a book with a map near the window, but she doesn't want to sleep."
+      },
+      complex: {
+        conjunction: "although",
+        idea: "it is late",
+        frame: "Although ___, Sophie ___.",
+        sentence: "Although it is late, Sophie reads a book with a map near the window."
+      }
     }
   },
   {
@@ -39,12 +55,22 @@ const PICTURES_DATA = [
     title: "Please let me go!",
     image: "images/scene-02.jpg",
     alt: "Sophie arguing with her uncles in the kitchen.",
-    words: ["argue", "uncles", "kitchen", "book"],
     km: 0,
-    phrases: {
-      simple: "Sophie wants to go on the trip.",
-      compound: "Stew and Mo say no, but Uncle Dock says yes.",
-      complex: "Although her uncles are worried, Sophie doesn't give up."
+    levels: {
+      simple: {
+        words: ["argue", "uncles", "kitchen", "trip"],
+        sentence: "Sophie argues with her uncles in the kitchen about the trip."
+      },
+      compound: {
+        newWords: ["but", "help"],
+        sentence: "Sophie argues with her uncles in the kitchen about the trip, but Uncle Dock helps her."
+      },
+      complex: {
+        conjunction: "because",
+        idea: "she wants to sail",
+        frame: "Because ___, Sophie ___.",
+        sentence: "Because she wants to sail, Sophie argues with her uncles in the kitchen about the trip."
+      }
     }
   },
   {
@@ -52,12 +78,22 @@ const PICTURES_DATA = [
     title: "A worried mother",
     image: "images/scene-03.jpg",
     alt: "Sophie's mother hugging her on the dock.",
-    words: ["hug", "mother", "scarf", "dock"],
     km: 0,
-    phrases: {
-      simple: "Her mother hugs Sophie.",
-      compound: "She is proud, yet she is worried.",
-      complex: "Before Sophie leaves, her mother gives her a scarf."
+    levels: {
+      simple: {
+        words: ["hug", "mother", "scarf", "dock"],
+        sentence: "Her mother hugs Sophie on the dock with a warm scarf."
+      },
+      compound: {
+        newWords: ["yet", "worried"],
+        sentence: "Her mother hugs Sophie on the dock with a warm scarf, yet she is worried."
+      },
+      complex: {
+        conjunction: "before",
+        idea: "Sophie leaves",
+        frame: "Before ___, her mother ___.",
+        sentence: "Before Sophie leaves, her mother hugs her on the dock with a warm scarf."
+      }
     }
   },
   {
@@ -65,12 +101,22 @@ const PICTURES_DATA = [
     title: "Loading the boat",
     image: "images/scene-04.jpg",
     alt: "The crew loading the sailboat at the harbour.",
-    words: ["carry", "boxes", "rope", "harbour"],
     km: 0,
-    phrases: {
-      simple: "The crew is preparing the boat.",
-      compound: "Uncle Mo carries boxes, and Cody plays with oranges.",
-      complex: "While Brian reads, Sophie helps with the ropes."
+    levels: {
+      simple: {
+        words: ["carry", "boxes", "rope", "boat"],
+        sentence: "Uncle Mo carries boxes and a rope to the boat."
+      },
+      compound: {
+        newWords: ["and", "juggle"],
+        sentence: "Uncle Mo carries boxes and a rope to the boat, and Cody juggles oranges."
+      },
+      complex: {
+        conjunction: "while",
+        idea: "Brian reads",
+        frame: "While ___, Uncle Mo ___.",
+        sentence: "While Brian reads, Uncle Mo carries boxes and a rope to the boat."
+      }
     }
   },
   {
@@ -78,12 +124,22 @@ const PICTURES_DATA = [
     title: "Goodbye, harbour!",
     image: "images/scene-05.jpg",
     alt: "The sailboat leaving the harbour while Sophie waves.",
-    words: ["wave", "sails", "family", "sky"],
     km: 0,
-    phrases: {
-      simple: "The boat leaves the harbour.",
-      compound: "Sophie is excited, so she waves to her family.",
-      complex: "As soon as the wind blows, the sails open."
+    levels: {
+      simple: {
+        words: ["wave", "family", "sails", "harbour"],
+        sentence: "Sophie waves to her family under the sails in the harbour."
+      },
+      compound: {
+        newWords: ["so", "excited"],
+        sentence: "Sophie is excited, so she waves to her family under the sails in the harbour."
+      },
+      complex: {
+        conjunction: "as soon as",
+        idea: "the wind blows",
+        frame: "As soon as ___, Sophie ___.",
+        sentence: "As soon as the wind blows, Sophie waves to her family under the sails in the harbour."
+      }
     }
   },
   {
@@ -91,12 +147,22 @@ const PICTURES_DATA = [
     title: "Dolphins at sunset",
     image: "images/scene-06.jpg",
     alt: "Sophie steering the boat at sunset with dolphins.",
-    words: ["steer", "wheel", "dolphins", "sunset"],
     km: 1500,
-    phrases: {
-      simple: "Sophie steers the boat.",
-      compound: "The sun is going down, and dolphins are jumping.",
-      complex: "When Sophie sees the dolphins, she smiles."
+    levels: {
+      simple: {
+        words: ["steer", "boat", "dolphins", "sunset"],
+        sentence: "Sophie steers the boat near the dolphins at sunset."
+      },
+      compound: {
+        newWords: ["and", "jump"],
+        sentence: "Sophie steers the boat near the dolphins at sunset, and they jump next to her."
+      },
+      complex: {
+        conjunction: "when",
+        idea: "she sees them",
+        frame: "When ___, Sophie ___.",
+        sentence: "When Sophie sees the dolphins, she steers the boat closer at sunset."
+      }
     }
   },
   {
@@ -104,12 +170,22 @@ const PICTURES_DATA = [
     title: "Chores on deck",
     image: "images/scene-07.jpg",
     alt: "Brian writing, Cody sleeping and Sophie cleaning the deck.",
-    words: ["write", "logbook", "mop", "deck"],
     km: 2800,
-    phrases: {
-      simple: "Brian writes in the logbook.",
-      compound: "Sophie is cleaning, but Cody is sleeping.",
-      complex: "Because Cody is lazy, Uncle Stew is angry."
+    levels: {
+      simple: {
+        words: ["write", "logbook", "pencil", "deck"],
+        sentence: "Brian writes in the logbook with a pencil on the deck."
+      },
+      compound: {
+        newWords: ["but", "sleep"],
+        sentence: "Brian writes in the logbook with a pencil on the deck, but Cody sleeps."
+      },
+      complex: {
+        conjunction: "while",
+        idea: "Cody sleeps",
+        frame: "While ___, Brian ___.",
+        sentence: "While Cody sleeps, Brian writes in the logbook with a pencil on the deck."
+      }
     }
   },
   {
@@ -117,12 +193,22 @@ const PICTURES_DATA = [
     title: "The storm",
     image: "images/scene-08.jpg",
     alt: "The crew pulling ropes in a big storm.",
-    words: ["pull", "waves", "ropes", "lightning"],
     km: 3800,
-    phrases: {
-      simple: "There is a big storm.",
-      compound: "The waves are huge, yet Sophie isn't afraid.",
-      complex: "Although the rain is strong, they pull the ropes."
+    levels: {
+      simple: {
+        words: ["pull", "ropes", "storm", "waves"],
+        sentence: "Sophie pulls the ropes in the storm with big waves."
+      },
+      compound: {
+        newWords: ["yet", "afraid"],
+        sentence: "Sophie pulls the ropes in the storm with big waves, yet she isn't afraid."
+      },
+      complex: {
+        conjunction: "although",
+        idea: "the rain is strong",
+        frame: "Although ___, Sophie ___.",
+        sentence: "Although the rain is strong, Sophie pulls the ropes in the storm with big waves."
+      }
     }
   },
   {
@@ -130,12 +216,22 @@ const PICTURES_DATA = [
     title: "Thinking of Bompie",
     image: "images/scene-09.jpg",
     alt: "Sophie on deck at night holding a photo of her grandfather.",
-    words: ["remember", "stars", "photo", "lantern"],
     km: 4800,
-    phrases: {
-      simple: "Sophie looks at the stars.",
-      compound: "The sea is calm, and she feels peaceful.",
-      complex: "When she sees the photo, she remembers Bompie."
+    levels: {
+      simple: {
+        words: ["look", "stars", "photo", "grandfather"],
+        sentence: "Sophie looks at the stars and a photo of her grandfather."
+      },
+      compound: {
+        newWords: ["for", "miss"],
+        sentence: "Sophie looks at the stars and a photo of her grandfather, for she misses him."
+      },
+      complex: {
+        conjunction: "when",
+        idea: "the sea is calm",
+        frame: "When ___, Sophie ___.",
+        sentence: "When the sea is calm, Sophie looks at the stars and a photo of her grandfather."
+      }
     }
   },
   {
@@ -143,12 +239,22 @@ const PICTURES_DATA = [
     title: "Bompie's arms",
     image: "images/scene-10.jpg",
     alt: "Sophie running to hug her grandfather in an English harbour.",
-    words: ["run", "grandfather", "hills", "cottages"],
     km: 5500,
-    phrases: {
-      simple: "Sophie arrives in England.",
-      compound: "She runs to Bompie, and he hugs her.",
-      complex: "After many days at sea, Sophie finally sees her grandfather."
+    levels: {
+      simple: {
+        words: ["run", "grandfather", "harbour", "hills"],
+        sentence: "Sophie runs to her grandfather in the harbour near the green hills."
+      },
+      compound: {
+        newWords: ["and", "hug"],
+        sentence: "Sophie runs to her grandfather in the harbour near the green hills, and he hugs her."
+      },
+      complex: {
+        conjunction: "after",
+        idea: "many days at sea",
+        frame: "After ___, Sophie ___.",
+        sentence: "After many days at sea, Sophie runs to her grandfather in the harbour near the green hills."
+      }
     }
   }
 ];
@@ -157,55 +263,15 @@ const PICTURES_DATA = [
 const TOTAL_KM = 5500;
 
 /* ============================================================================
-   SENTENCE LEVELS
+   JOINING WORDS (used to underline the joining word automatically)
+   The Teacher Guide shows these words grouped by meaning.
    ============================================================================ */
-const LEVELS = [
-  { key: "simple",   label: "Simple",   emoji: "🟢" },
-  { key: "compound", label: "Compound", emoji: "🔵" },
-  { key: "complex",  label: "Complex",  emoji: "🟠" }
-];
-
-/* ============================================================================
-   TEACHER EDIT ZONE: CUE WORDS
-   ----------------------------------------------------------------------------
-   After students see the simple sentence, a box shows the cue words for the
-   NEXT level (compound, then complex), grouped by meaning, so they can try
-   to build the harder sentence before they click "Level up".
-   Add, remove or move words freely. Click a word in the app to hear it.
-   ============================================================================ */
-const CUE_WORDS = {
-  compound: {
-    heading: "Try a compound sentence 🔵",
-    howTo: "Join two simple sentences with a comma + a FANBOYS word.",
-    pattern: ["Sentence 1", ", and / but / so", "Sentence 2."],
-    example: "Sophie is happy, so she sings.",
-    groups: [
-      { meaning: "add more", icon: "➕", words: ["and"] },
-      { meaning: "different idea", icon: "↔️", words: ["but", "yet"] },
-      { meaning: "result", icon: "➡️", words: ["so"] },
-      { meaning: "choice", icon: "🔀", words: ["or"] },
-      { meaning: "reason", icon: "💡", words: ["for"] },
-      { meaning: "not this, not that", icon: "🚫", words: ["nor"] }
-    ]
-  },
-  complex: {
-    heading: "Try a complex sentence 🟠",
-    howTo: "Start with a cue word + one idea, then a comma, then the main idea.",
-    pattern: ["When / Because / Although + idea", ",", "main idea."],
-    example: "Because it is cold, Sophie wears a hat.",
-    groups: [
-      { meaning: "time", icon: "⏰", words: ["when", "while", "before", "after", "as soon as", "until", "whenever"] },
-      { meaning: "reason", icon: "💡", words: ["because", "since"] },
-      { meaning: "surprise / contrast", icon: "↔️", words: ["although", "even though"] },
-      { meaning: "condition", icon: "🤔", words: ["if", "unless"] }
-    ]
-  }
-};
-
-// Lists used to underline the joining word (longest first, so "as soon as" wins over "as").
 const byLength = (a, b) => b.length - a.length;
-const FANBOYS = CUE_WORDS.compound.groups.flatMap((g) => g.words).sort(byLength);
-const SUBORDINATORS = CUE_WORDS.complex.groups.flatMap((g) => g.words).sort(byLength);
+const FANBOYS = ["for", "and", "nor", "but", "or", "yet", "so"].sort(byLength);
+const SUBORDINATORS = [
+  "when", "while", "before", "after", "as soon as", "until", "whenever",
+  "because", "since", "although", "even though", "if", "unless"
+].sort(byLength);
 
 /* ============================================================================
    HELPERS
@@ -227,29 +293,139 @@ function formatKm(value) {
   return Math.round(value).toLocaleString("en-US");
 }
 
+/* ============================================================================
+   HIGHLIGHTING TARGET WORDS IN THE MODEL SENTENCES
+   ============================================================================ */
+// Irregular forms, so e.g. "run" also finds "ran" and "write" finds "wrote".
+const IRREGULAR_FORMS = {
+  be: ["is", "am", "are", "was", "were"], have: ["has", "had"], do: ["does", "did"],
+  go: ["goes", "went"], run: ["ran"], write: ["wrote", "written"], sleep: ["slept"],
+  see: ["saw", "seen"], sit: ["sat"], swim: ["swam"], feel: ["felt"], hold: ["held"],
+  think: ["thought"], catch: ["caught"], fly: ["flew"], eat: ["ate"], drink: ["drank"],
+  give: ["gave"], leave: ["left"], meet: ["met"], take: ["took"], make: ["made"],
+  find: ["found"], blow: ["blew"], sing: ["sang"], tell: ["told"], say: ["said"]
+};
+
+// Small words that are not used on their own to find an idea in a sentence.
+const STOP_WORDS = new Set(["a", "an", "the", "she", "he", "it", "they", "them", "her", "him", "his",
+  "is", "are", "am", "to", "of", "at", "in", "on", "and", "with"]);
+
+/** All the forms of a word: read -> read, reads, reading, readed... (extra forms do no harm). */
+function wordForms(word) {
+  const w = word.toLowerCase();
+  const forms = new Set([w, w + "s", w + "es", w + "ed", w + "d", w + "ing"]);
+  if (w.endsWith("e")) forms.add(w.slice(0, -1) + "ing");                      // argue -> arguing
+  if (/[^aeiou]y$/.test(w)) {                                                   // carry -> carries
+    forms.add(w.slice(0, -1) + "ies");
+    forms.add(w.slice(0, -1) + "ied");
+  }
+  if (/[^aeiou][aeiou][bdgklmnprt]$/.test(w)) {                                 // hug -> hugging
+    forms.add(w + w.slice(-1) + "ing");
+    forms.add(w + w.slice(-1) + "ed");
+  }
+  (IRREGULAR_FORMS[w] || []).forEach((f) => forms.add(f));
+  return [...forms];
+}
+
+function overlaps(range, ranges) {
+  return ranges.some((r) => range.start < r.end && r.start < range.end);
+}
+
 /**
- * Wraps the joining word of a sentence in <u class="joiner">.
- * Compound: the FANBOYS word that comes right after a comma (", but").
- * Complex: the first subordinating word (when, although, as soon as...).
+ * Finds where a target (word or phrase) appears in a sentence.
+ * Returns { start, end } or null. 'afterComma' prefers the match after a comma
+ * (for FANBOYS: "boxes and a rope, and Cody..." -> the second "and").
  */
-function highlightJoiner(sentence, levelKey) {
-  const safe = escapeHtml(sentence);
+function findTarget(sentence, text, taken, afterComma = false) {
+  const clean = text.trim();
+  const pattern = /\s/.test(clean)
+    ? clean.split(/\s+/).map(escapeRegex).join("\\s+")
+    : "(?:" + wordForms(clean).sort(byLength).map(escapeRegex).join("|") + ")";
+  const re = new RegExp("\\b" + pattern + "\\b", "gi");
+  const matches = [...sentence.matchAll(re)]
+    .map((m) => ({ start: m.index, end: m.index + m[0].length }))
+    .filter((r) => !overlaps(r, taken));
+  if (!matches.length) return null;
+  if (afterComma) {
+    const afterCommaMatch = matches.find((r) => /,\s*$/.test(sentence.slice(0, r.start)));
+    if (afterCommaMatch) return afterCommaMatch;
+  }
+  return matches[0];
+}
+
+/** Position of the joining word, for the automatic underline. */
+function findJoiner(sentence, levelKey) {
   if (levelKey === "compound") {
-    const re = new RegExp(",\\s+(" + FANBOYS.join("|") + ")\\b", "i");
-    const m = safe.match(re);
+    const m = sentence.match(new RegExp(",\\s+(" + FANBOYS.join("|") + ")\\b", "i"));
     if (m) {
       const start = m.index + m[0].length - m[1].length;
-      return safe.slice(0, start) + '<u class="joiner">' + m[1] + "</u>" + safe.slice(start + m[1].length);
+      return { start, end: start + m[1].length };
     }
-    // Fallback: first FANBOYS word anywhere
-    const re2 = new RegExp("\\b(" + FANBOYS.join("|") + ")\\b", "i");
-    return safe.replace(re2, '<u class="joiner">$1</u>');
   }
   if (levelKey === "complex") {
-    const re = new RegExp("\\b(" + SUBORDINATORS.map(escapeRegex).join("|") + ")\\b", "i");
-    return safe.replace(re, '<u class="joiner">$1</u>');
+    const m = sentence.match(new RegExp("\\b(" + SUBORDINATORS.map(escapeRegex).join("|") + ")\\b", "i"));
+    if (m) return { start: m.index, end: m.index + m[1].length };
   }
-  return safe;
+  return null;
+}
+
+/**
+ * Returns the sentence as HTML with every target highlighted in its chip colour
+ * and the joining word underlined.
+ * targets: [{ text, cls, afterComma?, idea? }]
+ */
+function highlightSentence(sentence, levelKey, targets) {
+  const ranges = [];
+  targets.forEach((t) => {
+    const r = findTarget(sentence, t.text, ranges, t.afterComma);
+    if (r) {
+      ranges.push({ ...r, cls: t.cls });
+    } else if (t.idea) {
+      // The idea is not word-for-word in the sentence: highlight its main words.
+      t.text.split(/\s+/).filter((w) => !STOP_WORDS.has(w.toLowerCase())).forEach((w) => {
+        const r2 = findTarget(sentence, w, ranges);
+        if (r2) ranges.push({ ...r2, cls: t.cls });
+      });
+    }
+  });
+
+  const joiner = findJoiner(sentence, levelKey);
+  if (joiner) {
+    const same = ranges.find((r) => r.start === joiner.start && r.end === joiner.end);
+    if (same) same.joiner = true;
+    else if (!overlaps(joiner, ranges)) ranges.push({ ...joiner, cls: "", joiner: true });
+  }
+
+  ranges.sort((a, b) => a.start - b.start);
+  let html = "";
+  let pos = 0;
+  ranges.forEach((r) => {
+    html += escapeHtml(sentence.slice(pos, r.start));
+    const word = escapeHtml(sentence.slice(r.start, r.end));
+    const inner = r.joiner ? `<u class="joiner">${word}</u>` : word;
+    html += r.cls ? `<mark class="hl ${r.cls}">${inner}</mark>` : inner;
+    pos = r.end;
+  });
+  html += escapeHtml(sentence.slice(pos));
+  return html;
+}
+
+/** Targets of each level, with the chip colour they use. */
+function getTargets(item, levelKey) {
+  const lv = item.levels[levelKey];
+  if (levelKey === "simple") {
+    return lv.words.map((w, i) => ({ text: w, cls: i === 0 ? "c-verb" : "c-noun" }));
+  }
+  if (levelKey === "compound") {
+    return [
+      { text: lv.newWords[0], cls: "c-fanboys", afterComma: true },
+      { text: lv.newWords[1], cls: "c-new" }
+    ];
+  }
+  return [
+    { text: lv.conjunction, cls: "c-conj" },
+    { text: lv.idea, cls: "c-idea", idea: true }
+  ];
 }
 
 /* ============================================================================
@@ -393,13 +569,35 @@ function setMapCollapsed(collapsed) {
   try { localStorage.setItem("sj-map-collapsed", collapsed ? "1" : "0"); } catch (e) { /* storage not available */ }
 }
 
+
+/* ============================================================================
+   STEPS FOR EACH PICTURE
+   0 Reveal words -> 1 Show sentence -> 2 Level up 🔵 -> 3 Show sentence
+   -> 4 Level up 🟠 -> 5 Show sentence -> 6 Done!
+   state.step = how many steps have been done.
+   ============================================================================ */
+const STEPS = [
+  { label: "Reveal words", cls: "step-words", icon: "eye" },
+  { label: "Show sentence", cls: "step-simple", icon: "chat" },
+  { label: "Level up 🔵", cls: "step-compound", icon: "up" },
+  { label: "Show sentence", cls: "step-compound", icon: "chat" },
+  { label: "Level up 🟠", cls: "step-complex", icon: "up" },
+  { label: "Show sentence", cls: "step-complex", icon: "chat" }
+];
+const LAST_STEP = STEPS.length; // 6 = everything revealed
+
+const LEVEL_INFO = {
+  simple:   { n: 1, label: "Simple",   emoji: "🟢", wordsAt: 1, sentenceAt: 2 },
+  compound: { n: 2, label: "Compound", emoji: "🔵", wordsAt: 3, sentenceAt: 4 },
+  complex:  { n: 3, label: "Complex",  emoji: "🟠", wordsAt: 5, sentenceAt: 6 }
+};
+
 /* ============================================================================
    APPLICATION STATE
    ============================================================================ */
 const state = {
   selectedPictureIndex: null,
-  wordsRevealed: false,
-  level: 0 // 0 = no sentence shown, 1 = simple, 2 = + compound, 3 = + complex
+  step: 0
 };
 
 /* ============================================================================
@@ -416,16 +614,11 @@ const elements = {
   prevBtn: document.getElementById("btn-prev"),
   nextBtn: document.getElementById("btn-next"),
 
-  btnRevealWords: document.getElementById("btn-reveal-words"),
-  btnRevealPhrase: document.getElementById("btn-reveal-phrase"),
+  btnStep: document.getElementById("btn-step"),
   btnHome: document.getElementById("btn-home"),
   btnReset: document.getElementById("btn-reset"),
 
-  wordsContainer: document.getElementById("words-container"),
-  wordsList: document.getElementById("words-list"),
-  phraseContainer: document.getElementById("phrase-container"),
-  levelCards: document.getElementById("level-cards"),
-  cueBox: document.getElementById("cue-box"),
+  levelsStack: document.getElementById("levels-stack"),
 
   routeMap: document.getElementById("route-map"),
   btnMapToggle: document.getElementById("btn-map-toggle"),
@@ -489,8 +682,7 @@ function openActivity(index) {
   stopSpeaking();
 
   state.selectedPictureIndex = index;
-  state.wordsRevealed = false;
-  state.level = 0;
+  state.step = 0;
 
   const item = PICTURES_DATA[index];
 
@@ -502,11 +694,8 @@ function openActivity(index) {
   elements.prevBtn.disabled = index === 0;
   elements.nextBtn.disabled = index === PICTURES_DATA.length - 1;
 
-  renderWords(item.words);
-  renderLevels();
-
-  elements.wordsContainer.classList.remove("visible");
-  updateButtonStates();
+  renderStack();
+  updateStepButton();
 
   elements.galleryView.classList.remove("active");
   elements.activityView.classList.add("active");
@@ -517,155 +706,163 @@ function openActivity(index) {
   if (!wasOpen) window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-function renderWords(words) {
-  elements.wordsList.innerHTML = "";
-  words.forEach((word, i) => {
-    const pill = document.createElement("div");
-    pill.className = i === 0 ? "word-pill word-pill-verb" : "word-pill";
-    pill.innerHTML = i === 0
-      ? `<span class="verb-tag">action</span><span>${escapeHtml(word)}</span>`
-      : `<span>${escapeHtml(word)}</span>`;
-    elements.wordsList.appendChild(pill);
-  });
+/** One clickable word chip. 'used' adds a small ✓ once the sentence is shown. */
+function chipHtml(text, cls, used, tag = "") {
+  return `<button type="button" class="chip ${cls}${used ? " chip-used" : ""}" data-say="${escapeHtml(text)}" title="Listen">` +
+    (tag ? `<span class="verb-tag">${tag}</span>` : "") +
+    `<span>${escapeHtml(text)}</span>` +
+    (used ? `<span class="chip-check" aria-label="used">✓</span>` : "") +
+    `</button>`;
 }
 
-/**
- * Shows the cue words for the NEXT level:
- * after 🟢 simple -> compound cue words, after 🔵 compound -> complex cue words.
- */
-function renderCueBox() {
-  const nextKey = state.level === 1 ? "compound" : state.level === 2 ? "complex" : null;
-  const box = elements.cueBox;
-  if (!nextKey) {
-    box.innerHTML = "";
-    box.className = "cue-box";
-    return;
-  }
-  const cues = CUE_WORDS[nextKey];
-  const [p1, p2, p3] = cues.pattern;
-  box.className = `cue-box cue-${nextKey} visible`;
-  box.innerHTML = `
-    <div class="cue-head">
-      <span class="cue-title">${escapeHtml(cues.heading)}</span>
-      <span class="cue-howto">${escapeHtml(cues.howTo)}</span>
-    </div>
-    <div class="cue-pattern" aria-label="Pattern">
-      <span class="cue-slot">${escapeHtml(p1)}</span>
-      <span class="cue-slot cue-slot-join">${escapeHtml(p2)}</span>
-      <span class="cue-slot">${escapeHtml(p3)}</span>
-    </div>
-    <div class="cue-groups">
-      ${cues.groups.map((g) => `
-        <div class="cue-group">
-          <span class="cue-meaning"><span aria-hidden="true">${g.icon}</span> ${escapeHtml(g.meaning)}</span>
-          <div class="cue-chips">
-            ${g.words.map((w) => `<button type="button" class="cue-chip" data-word="${escapeHtml(w)}" title="Listen">${escapeHtml(w)}</button>`).join("")}
-          </div>
-        </div>`).join("")}
-    </div>
-    <p class="cue-example"><strong>Example:</strong> ${highlightJoiner(cues.example, nextKey)}</p>
-    <p class="cue-nudge">Say your sentence first, then click <strong>Level up</strong> to compare.</p>
-  `;
-  box.querySelectorAll(".cue-chip").forEach((chip) => {
-    chip.addEventListener("click", () => speak(chip.dataset.word));
-  });
+/** The sentence frame with blanks, e.g. "Although ___, Sophie ___." */
+function frameHtml(frame, conjunction) {
+  const parts = frame.split(/_{2,}/);
+  return parts.map((part, i) => {
+    let html = escapeHtml(part);
+    if (i === 0) {
+      const r = findTarget(part, conjunction, []);
+      if (r) {
+        html = escapeHtml(part.slice(0, r.start)) +
+          `<mark class="hl c-conj">${escapeHtml(part.slice(r.start, r.end))}</mark>` +
+          escapeHtml(part.slice(r.end));
+      }
+    }
+    return html + (i < parts.length - 1 ? '<span class="blank" aria-label="blank"></span>' : "");
+  }).join("");
 }
 
-/** Renders the sentence cards for the levels revealed so far. */
-function renderLevels() {
-  const item = PICTURES_DATA[state.selectedPictureIndex];
-  elements.levelCards.innerHTML = "";
-
-  LEVELS.slice(0, state.level).forEach((level, i) => {
-    const sentence = (item.phrases && item.phrases[level.key]) || "";
-    const card = document.createElement("div");
-    card.className = `level-card level-${level.key}`;
-    if (i === state.level - 1) card.classList.add("level-new");
-    card.innerHTML = `
+function sentenceCardHtml(item, levelKey) {
+  const info = LEVEL_INFO[levelKey];
+  const sentence = item.levels[levelKey].sentence;
+  return `
+    <div class="level-card level-${levelKey}">
       <div class="level-card-text">
-        <span class="level-tag">${level.emoji} ${level.label}</span>
-        <p class="revealed-phrase-text">${highlightJoiner(sentence, level.key)}</p>
+        <span class="level-tag">${info.emoji} Model sentence</span>
+        <p class="revealed-phrase-text">${highlightSentence(sentence, levelKey, getTargets(item, levelKey))}</p>
       </div>
-      <button type="button" class="btn-speak" aria-label="Listen to the ${level.label.toLowerCase()} sentence" title="Listen">
+      <button type="button" class="btn-speak" data-say="${escapeHtml(sentence)}" aria-label="Listen to the ${info.label.toLowerCase()} sentence" title="Listen">
         <span aria-hidden="true">🔊</span>
       </button>
-    `;
-    card.querySelector(".btn-speak").addEventListener("click", () => speak(sentence));
-    elements.levelCards.appendChild(card);
-  });
-
-  renderCueBox();
-
-  elements.phraseContainer.classList.toggle("visible", state.level > 0);
+    </div>`;
 }
 
-const ICON_CHECK = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
-const ICON_EYE = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path></svg>`;
-const ICON_CHAT = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>`;
-const ICON_UP = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="18 15 12 9 6 15"></polyline></svg>`;
+function levelBlockHtml(item, levelKey) {
+  const info = LEVEL_INFO[levelKey];
+  const lv = item.levels[levelKey];
+  const shown = state.step >= info.sentenceAt;
+  const isNew = state.step === info.wordsAt;
+  let body = "";
 
-function updateButtonStates() {
-  elements.btnRevealWords.innerHTML = state.wordsRevealed
-    ? `${ICON_CHECK}<span>Words revealed</span>`
-    : `${ICON_EYE}<span>Reveal words</span>`;
-
-  const btn = elements.btnRevealPhrase;
-  btn.classList.remove("btn-level-2", "btn-level-3", "btn-done");
-  if (state.level === 0) {
-    btn.innerHTML = `${ICON_CHAT}<span>Reveal phrase</span>`;
-  } else if (state.level === 1) {
-    btn.classList.add("btn-level-2");
-    btn.innerHTML = `${ICON_UP}<span>Level up 🔵</span>`;
-  } else if (state.level === 2) {
-    btn.classList.add("btn-level-3");
-    btn.innerHTML = `${ICON_UP}<span>Level up 🟠</span>`;
+  if (levelKey === "simple") {
+    body = `
+      <div class="chip-label">Key words</div>
+      <div class="chip-row">
+        ${lv.words.map((w, i) => chipHtml(w, i === 0 ? "c-verb" : "c-noun", shown, i === 0 ? "action" : "")).join("")}
+      </div>
+      ${shown ? "" : `<p class="level-prompt">🗣️ Say a simple sentence with all ${lv.words.length} words.</p>`}`;
+  } else if (levelKey === "compound") {
+    const [fanboys, word] = lv.newWords;
+    body = `
+      <div class="chip-label">+ New words</div>
+      <div class="chip-row">
+        ${chipHtml(fanboys, "c-fanboys", shown)}
+        ${chipHtml(word, "c-new", shown)}
+      </div>
+      ${shown ? "" : `<p class="level-prompt">🗣️ Add the new words to your simple sentence. Put a comma before <strong>${escapeHtml(fanboys)}</strong>.</p>`}`;
   } else {
-    btn.classList.add("btn-done");
-    btn.innerHTML = `${ICON_CHECK}<span>All levels revealed</span>`;
+    body = `
+      <div class="hint-card">
+        <div class="chip-label">Hint</div>
+        <div class="chip-row">
+          ${chipHtml(lv.conjunction, "c-conj", shown)}
+          ${chipHtml(lv.idea, "c-idea", shown)}
+        </div>
+        <p class="frame">${frameHtml(lv.frame, lv.conjunction)}</p>
+        <p class="frame-tip">💡 Put a comma after the first part.</p>
+      </div>
+      ${shown ? "" : `<p class="level-prompt">🗣️ Use the hint and the frame to make a complex sentence.</p>`}`;
+  }
+
+  return `
+    <section class="level-block block-${levelKey}${isNew ? " is-new" : ""}" data-level="${levelKey}">
+      <div class="level-block-head">
+        <span class="level-badge">${info.emoji} Level ${info.n} · ${info.label}</span>
+      </div>
+      ${body}
+      ${shown ? sentenceCardHtml(item, levelKey) : ""}
+    </section>`;
+}
+
+/** Draws every level reached so far (earlier levels stay visible). */
+function renderStack() {
+  const item = PICTURES_DATA[state.selectedPictureIndex];
+  if (!item) {
+    elements.levelsStack.innerHTML = "";
+    return;
+  }
+  const html = Object.keys(LEVEL_INFO)
+    .filter((key) => state.step >= LEVEL_INFO[key].wordsAt)
+    .map((key) => levelBlockHtml(item, key))
+    .join("");
+  elements.levelsStack.innerHTML = html;
+  elements.levelsStack.classList.toggle("visible", html !== "");
+
+  // Mark the sentence that was just revealed, for the pop-in animation
+  const justShown = Object.keys(LEVEL_INFO).find((k) => LEVEL_INFO[k].sentenceAt === state.step);
+  if (justShown) {
+    const card = elements.levelsStack.querySelector(`.block-${justShown} .level-card`);
+    if (card) card.classList.add("level-new");
   }
 }
 
-function revealWords() {
-  state.wordsRevealed = true;
-  elements.wordsContainer.classList.add("visible");
-  updateButtonStates();
-  if (window.innerWidth < 640) {
-    elements.wordsContainer.scrollIntoView({ behavior: "smooth", block: "nearest" });
+const ICONS = {
+  check: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>`,
+  eye: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path></svg>`,
+  chat: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>`,
+  up: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="18 15 12 9 6 15"></polyline></svg>`
+};
+
+/** Only the next step's button is shown. */
+function updateStepButton() {
+  const btn = elements.btnStep;
+  btn.className = "btn btn-step";
+  if (state.step >= LAST_STEP) {
+    btn.classList.add("step-done");
+    btn.setAttribute("aria-disabled", "true");
+    btn.innerHTML = `<span>Done! ✓</span>`;
+    return;
   }
+  const s = STEPS[state.step];
+  btn.classList.add(s.cls);
+  btn.removeAttribute("aria-disabled");
+  btn.innerHTML = `${ICONS[s.icon]}<span>${s.label}</span>`;
 }
 
-/** First click: simple. Then "Level up 🔵" (compound), then "Level up 🟠" (complex). */
-function revealNextLevel() {
-  if (state.selectedPictureIndex === null || state.level >= LEVELS.length) return;
-  state.level += 1;
-  renderLevels();
-  updateButtonStates();
-  const newest = elements.levelCards.lastElementChild;
-  if (newest) newest.scrollIntoView({ behavior: "smooth", block: "nearest" });
+function nextStep() {
+  if (state.selectedPictureIndex === null || state.step >= LAST_STEP) return;
+  state.step += 1;
+  renderStack();
+  updateStepButton();
+  // Keep the new content and the next button in view (the buttons sit under the levels).
+  const buttons = document.getElementById("activity-buttons-group");
+  if (buttons) buttons.scrollIntoView({ behavior: "smooth", block: "nearest" });
 }
 
-function resetLevelsAndWords() {
+function resetSteps() {
   stopSpeaking();
-  state.wordsRevealed = false;
-  state.level = 0;
-  elements.wordsContainer.classList.remove("visible");
-  elements.phraseContainer.classList.remove("visible");
-  elements.levelCards.innerHTML = "";
-  elements.cueBox.innerHTML = "";
-  elements.cueBox.className = "cue-box";
-  updateButtonStates();
+  state.step = 0;
+  renderStack();
+  updateStepButton();
 }
 
 function goHome() {
-  resetLevelsAndWords();
+  resetSteps();
   state.selectedPictureIndex = null;
+  elements.levelsStack.innerHTML = "";
   elements.activityView.classList.remove("active");
   elements.galleryView.classList.add("active");
   window.scrollTo({ top: 0, behavior: "smooth" });
-}
-
-function resetCurrentActivity() {
-  resetLevelsAndWords();
 }
 
 /* ============================================================================
@@ -701,10 +898,15 @@ function stopSpeaking() {
 /* ============================================================================
    EVENT BINDINGS
    ============================================================================ */
-elements.btnRevealWords.addEventListener("click", revealWords);
-elements.btnRevealPhrase.addEventListener("click", revealNextLevel);
+elements.btnStep.addEventListener("click", nextStep);
 elements.btnHome.addEventListener("click", goHome);
-elements.btnReset.addEventListener("click", resetCurrentActivity);
+elements.btnReset.addEventListener("click", resetSteps);
+
+// Chips and 🔊 buttons read their text aloud
+elements.levelsStack.addEventListener("click", (e) => {
+  const el = e.target.closest("[data-say]");
+  if (el) speak(el.dataset.say);
+});
 
 elements.prevBtn.addEventListener("click", () => {
   if (state.selectedPictureIndex !== null && state.selectedPictureIndex > 0) {
@@ -752,7 +954,7 @@ document.addEventListener("keydown", (e) => {
 function init() {
   renderGallery();
   initMap();
-  updateButtonStates();
+  updateStepButton();
 
   let collapsed = false;
   try { collapsed = localStorage.getItem("sj-map-collapsed") === "1"; } catch (e) { /* storage not available */ }

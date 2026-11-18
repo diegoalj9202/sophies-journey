@@ -36,6 +36,15 @@ Open `script.js`. At the top you will find the `PICTURES_DATA` list. Each pictur
 
 Change the text between the quotes and save. The joining word (*and, but, so, yet, when, because…*) is underlined automatically.
 
+### Cue words (how students climb the levels)
+
+After the 🟢 sentence appears, a box shows the cue words for the **next** level, grouped by meaning, with a pattern and an example. Students say their own sentence first, then click **Level up** to compare. Clicking a cue word reads it aloud.
+
+- 🔵 Compound: *and* (add) · *but, yet* (different idea) · *so* (result) · *or* (choice) · *for* (reason) · *nor*
+- 🟠 Complex: time *when, while, before, after, as soon as, until, whenever* · reason *because, since* · contrast *although, even though* · condition *if, unless*
+
+To change them, edit `CUE_WORDS` in `script.js` (just below `PICTURES_DATA`).
+
 ## Replace the images
 
 Put the pictures in the `images` folder with these names:

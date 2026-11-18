@@ -143,6 +143,8 @@
                       Model Sentences
                     </div>
                     <div class="level-cards" id="level-cards"></div>
+                    <!-- Cue words for the next level (compound / complex) -->
+                    <div class="cue-box" id="cue-box" aria-live="polite"></div>
                   </div>
 
                 </div>
@@ -169,15 +171,19 @@
           </p>
           <ul class="guide-levels">
             <li><span class="dot dot-simple"></span><strong>Simple</strong> &ndash; one idea. <em>Sophie steers the boat.</em></li>
-            <li><span class="dot dot-compound"></span><strong>Compound</strong> &ndash; two ideas joined with FANBOYS (for, and, nor, but, or, yet, so).</li>
-            <li><span class="dot dot-complex"></span><strong>Complex</strong> &ndash; an idea with <em>because, when, although, while, before, after, as soon as</em>.</li>
+            <li><span class="dot dot-compound"></span><span><strong>Compound</strong> &ndash; two sentences joined with a comma + FANBOYS: <em>and</em> (add), <em>but / yet</em> (different idea), <em>so</em> (result), <em>or</em> (choice), <em>for</em> (reason), <em>nor</em>.</span></li>
+            <li><span class="dot dot-complex"></span><span><strong>Complex</strong> &ndash; cue word + idea, comma, main idea. Time: <em>when, while, before, after, as soon as, until, whenever</em> &middot; Reason: <em>because, since</em> &middot; Contrast: <em>although, even though</em> &middot; Condition: <em>if, unless</em>.</span></li>
           </ul>
+          <p>
+            <strong>Climbing the levels:</strong> after the 🟢 sentence appears, a box shows the cue words for the next level, grouped by meaning, with a pattern and an example.
+            Students choose a cue word, say their own sentence, and only then click <strong>Level up</strong> to compare. Click a cue word to hear it.
+          </p>
 
           <p><strong>Student steps</strong></p>
           <ol class="guide-steps">
             <li>Look at the picture and say what is happening.</li>
             <li>Click <strong>&ldquo;Reveal words&rdquo;</strong> and check your key words. The <span class="verb-tag-inline">action</span> word is the verb.</li>
-            <li>Click <strong>&ldquo;Reveal phrase&rdquo;</strong> to see the sentences level by level (🟢 &rarr; 🔵 &rarr; 🟠). Try to say the harder sentence <em>before</em> you click &ldquo;Level up&rdquo;.</li>
+            <li>Click <strong>&ldquo;Reveal phrase&rdquo;</strong> to see the sentences level by level (🟢 &rarr; 🔵 &rarr; 🟠). Use the cue words to say the harder sentence <em>before</em> you click &ldquo;Level up&rdquo;.</li>
             <li>Look at the map: How far is Sophie now? How many km are left?</li>
           </ol>
           <p>Press 🔊 on any sentence card to hear it read aloud.</p>
@@ -202,6 +208,7 @@
           <p>
             Change any text between the quotes and save. The joining word (<em>and, but, so, when, because&hellip;</em>) is underlined automatically.
             <code>km</code> moves the boat on the map (0 to 5,500).
+            To change the cue words, edit <code>CUE_WORDS</code> just below <code>PICTURES_DATA</code>.
           </p>
 
           <p><strong>Replace the images</strong></p>

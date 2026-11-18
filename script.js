@@ -165,8 +165,47 @@ const LEVELS = [
   { key: "complex",  label: "Complex",  emoji: "🟠" }
 ];
 
-const FANBOYS = ["for", "and", "nor", "but", "or", "yet", "so"];
-const SUBORDINATORS = ["as soon as", "although", "because", "before", "after", "while", "when", "until", "if", "since"];
+/* ============================================================================
+   TEACHER EDIT ZONE: CUE WORDS
+   ----------------------------------------------------------------------------
+   After students see the simple sentence, a box shows the cue words for the
+   NEXT level (compound, then complex), grouped by meaning, so they can try
+   to build the harder sentence before they click "Level up".
+   Add, remove or move words freely. Click a word in the app to hear it.
+   ============================================================================ */
+const CUE_WORDS = {
+  compound: {
+    heading: "Try a compound sentence 🔵",
+    howTo: "Join two simple sentences with a comma + a FANBOYS word.",
+    pattern: ["Sentence 1", ", and / but / so", "Sentence 2."],
+    example: "Sophie is happy, so she sings.",
+    groups: [
+      { meaning: "add more", icon: "➕", words: ["and"] },
+      { meaning: "different idea", icon: "↔️", words: ["but", "yet"] },
+      { meaning: "result", icon: "➡️", words: ["so"] },
+      { meaning: "choice", icon: "🔀", words: ["or"] },
+      { meaning: "reason", icon: "💡", words: ["for"] },
+      { meaning: "not this, not that", icon: "🚫", words: ["nor"] }
+    ]
+  },
+  complex: {
+    heading: "Try a complex sentence 🟠",
+    howTo: "Start with a cue word + one idea, then a comma, then the main idea.",
+    pattern: ["When / Because / Although + idea", ",", "main idea."],
+    example: "Because it is cold, Sophie wears a hat.",
+    groups: [
+      { meaning: "time", icon: "⏰", words: ["when", "while", "before", "after", "as soon as", "until", "whenever"] },
+      { meaning: "reason", icon: "💡", words: ["because", "since"] },
+      { meaning: "surprise / contrast", icon: "↔️", words: ["although", "even though"] },
+      { meaning: "condition", icon: "🤔", words: ["if", "unless"] }
+    ]
+  }
+};
+
+// Lists used to underline the joining word (longest first, so "as soon as" wins over "as").
+const byLength = (a, b) => b.length - a.length;
+const FANBOYS = CUE_WORDS.compound.groups.flatMap((g) => g.words).sort(byLength);
+const SUBORDINATORS = CUE_WORDS.complex.groups.flatMap((g) => g.words).sort(byLength);
 
 /* ============================================================================
    HELPERS
@@ -386,6 +425,7 @@ const elements = {
   wordsList: document.getElementById("words-list"),
   phraseContainer: document.getElementById("phrase-container"),
   levelCards: document.getElementById("level-cards"),
+  cueBox: document.getElementById("cue-box"),
 
   routeMap: document.getElementById("route-map"),
   btnMapToggle: document.getElementById("btn-map-toggle"),
@@ -489,6 +529,48 @@ function renderWords(words) {
   });
 }
 
+/**
+ * Shows the cue words for the NEXT level:
+ * after 🟢 simple -> compound cue words, after 🔵 compound -> complex cue words.
+ */
+function renderCueBox() {
+  const nextKey = state.level === 1 ? "compound" : state.level === 2 ? "complex" : null;
+  const box = elements.cueBox;
+  if (!nextKey) {
+    box.innerHTML = "";
+    box.className = "cue-box";
+    return;
+  }
+  const cues = CUE_WORDS[nextKey];
+  const [p1, p2, p3] = cues.pattern;
+  box.className = `cue-box cue-${nextKey} visible`;
+  box.innerHTML = `
+    <div class="cue-head">
+      <span class="cue-title">${escapeHtml(cues.heading)}</span>
+      <span class="cue-howto">${escapeHtml(cues.howTo)}</span>
+    </div>
+    <div class="cue-pattern" aria-label="Pattern">
+      <span class="cue-slot">${escapeHtml(p1)}</span>
+      <span class="cue-slot cue-slot-join">${escapeHtml(p2)}</span>
+      <span class="cue-slot">${escapeHtml(p3)}</span>
+    </div>
+    <div class="cue-groups">
+      ${cues.groups.map((g) => `
+        <div class="cue-group">
+          <span class="cue-meaning"><span aria-hidden="true">${g.icon}</span> ${escapeHtml(g.meaning)}</span>
+          <div class="cue-chips">
+            ${g.words.map((w) => `<button type="button" class="cue-chip" data-word="${escapeHtml(w)}" title="Listen">${escapeHtml(w)}</button>`).join("")}
+          </div>
+        </div>`).join("")}
+    </div>
+    <p class="cue-example"><strong>Example:</strong> ${highlightJoiner(cues.example, nextKey)}</p>
+    <p class="cue-nudge">Say your sentence first, then click <strong>Level up</strong> to compare.</p>
+  `;
+  box.querySelectorAll(".cue-chip").forEach((chip) => {
+    chip.addEventListener("click", () => speak(chip.dataset.word));
+  });
+}
+
 /** Renders the sentence cards for the levels revealed so far. */
 function renderLevels() {
   const item = PICTURES_DATA[state.selectedPictureIndex];
@@ -511,6 +593,8 @@ function renderLevels() {
     card.querySelector(".btn-speak").addEventListener("click", () => speak(sentence));
     elements.levelCards.appendChild(card);
   });
+
+  renderCueBox();
 
   elements.phraseContainer.classList.toggle("visible", state.level > 0);
 }
@@ -567,6 +651,8 @@ function resetLevelsAndWords() {
   elements.wordsContainer.classList.remove("visible");
   elements.phraseContainer.classList.remove("visible");
   elements.levelCards.innerHTML = "";
+  elements.cueBox.innerHTML = "";
+  elements.cueBox.className = "cue-box";
   updateButtonStates();
 }
 
